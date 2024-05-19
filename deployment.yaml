@@ -45,7 +45,7 @@ Resources:
                   - logs:CreateLogGroup
                   - logs:CreateLogStream
                   - logs:PutLogEvents
-                Resource: sqscfQueue.Arn
+                Resource: !GetAtt sqscfQueue.Arn
   MyEventSourceMapping:
     Type: AWS::Lambda::EventSourceMapping
     Properties:
