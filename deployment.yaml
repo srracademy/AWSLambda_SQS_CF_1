@@ -48,12 +48,12 @@ Resources:
                   - logs:PutLogEvents
                 Resource: !GetAtt sqscfQueue.Arn
   MyEventSourceMapping:
-  Type: AWS::Lambda::EventSourceMapping
-  Properties:
-    BatchSize: 10
-    Enabled: True
-    EventSourceArn: !GetAtt sqscfQueue.Arn
-    FunctionName: !GetAtt lambdaFunction.Arn
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 10
+      Enabled: True
+      EventSourceArn: !GetAtt sqscfQueue.Arn
+      FunctionName: !GetAtt lambdaFunction.Arn
 
   lambdaFunction:
     Type: AWS::Lambda::Function
