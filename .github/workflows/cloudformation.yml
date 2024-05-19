@@ -32,7 +32,7 @@ jobs:
       working-directory: artifact/publish
       
     - name: Copy cloudformation template
-      run: cp ./AWSLambda_SQS_CF/deployment.yaml ./artifact/deployment.yaml
+      run: cp ./deployment.yaml ./artifact/deployment.yaml
       
     - uses: actions/upload-artifact@v4
       with:
