@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "CloudFormation Demo"
+
+Parameters:
+  Environment:
+    Description: Environment Name
+    Type: String
+
+Resources:
+  LambdaFunctionIamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path:
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: lambda.amazonaws.com
+              Action: sts:AssumeRole
+      Policies:
+        - PolicyName: "Lambdafunctonexecpolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+  lambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Description: "CloudFormation Demo"
+      FunctionName: !Sub sqs-lambda-cf-demo-function-${Environment}
+      Handler: "AWSLambda_SQS_CF::AWSLambda_SQS_CF.Function::FunctionHandler"
+      MemorySize: 128
+      Role: !GetAtt LambdaFunctionIamRole.Arn
+      Runtime: dotnet8
+      Timeout: 30
+      Environment:
+        Variables:
+          key1: value1 # A map of key-value pairs that the Lambda function can access
+      Code:
+        S3Bucket: sqs-lambda-cf-demo-function-srr-acc
+        S3Key: lambda.zip
+      Tags:
+        - Key: keyname
+          Value: value
