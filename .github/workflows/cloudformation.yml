@@ -67,7 +67,7 @@ jobs:
     - name: Deploy to AWS CloudFormation
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
-        name: lambdasqlcf-stack
+        name: lambdasqlcf-stack-test
         template: artifact/deployment.yaml
         parameter-overrides: "Environment=-Test"
   prod-deploy:
