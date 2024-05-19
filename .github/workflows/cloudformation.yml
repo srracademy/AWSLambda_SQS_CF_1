@@ -22,7 +22,7 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Publish
-      run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/publish ./AWSLambda_SQS_CF/AWSLambda_SQS_CF.csproj
+      run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/publish ./AWSLambda_SQS_CF_1/AWSLambda_SQS_CF.csproj
     
     - name: Install zip
       uses: montudor/action-zip@v1
