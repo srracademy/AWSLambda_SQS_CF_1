@@ -7,6 +7,11 @@ Parameters:
     Type: String
 
 Resources:
+  sqscfQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Sub Lambdasqscf${Environment}
+
   LambdaFunctionIamRole:
     Type: AWS::IAM::Role
     Properties:
@@ -28,6 +33,28 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource: "*"
+                Version: "2012-10-17"
+        - PolicyName: "sqspolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sqs:ReceiveMessage
+                  - sqs:DeleteMessage
+                  - sqs:GetQueueAttributes
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !GetAtt sqscfQueue.Arn
+  MyEventSourceMapping:
+  Type: AWS::Lambda::EventSourceMapping
+  Properties:
+    BatchSize: 10
+    Enabled: True
+    EventSourceArn: !GetAtt sqscfQueue.Arn
+    FunctionName: !GetAtt lambdaFunction.Arn
+
   lambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
