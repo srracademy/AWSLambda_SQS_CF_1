@@ -10,14 +10,13 @@ Resources:
   LambdaFunctionIamRole:
     Type: AWS::IAM::Role
     Properties:
-      Path:
-        AssumeRolePolicyDocument:
-          Version: "2012-10-17"
-          Statement:
-            - Effect: Allow
-              Principal:
-                Service: lambda.amazonaws.com
-              Action: sts:AssumeRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
       Policies:
         - PolicyName: "Lambdafunctonexecpolicy"
           PolicyDocument:
@@ -33,7 +32,7 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Description: "CloudFormation Demo"
-      FunctionName: !Sub sqs-lambda-cf-demo-function-${Environment}
+      FunctionName: !Sub sqs-lambda-cf-demo-function${Environment}
       Handler: "AWSLambda_SQS_CF::AWSLambda_SQS_CF.Function::FunctionHandler"
       MemorySize: 128
       Role: !GetAtt LambdaFunctionIamRole.Arn
